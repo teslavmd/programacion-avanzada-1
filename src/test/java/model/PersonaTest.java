@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class PersonaTest {
@@ -21,64 +20,40 @@ public class PersonaTest {
     }
 
     @Test
-    void crearPersonaConNombrEInvalido(){
-        boolean invalido = false;
-        try {
-            LocalDate fechaNacimiento = LocalDate.of(2003,1,15);
-            Persona persona = Persona.create("", "Villafañe", 22, fechaNacimiento);
+    void crearPersonaConNombreInvalido() {
+        LocalDate fechaNacimiento = LocalDate.of(2003, 1, 15);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            Persona.create("", "Villafañe", 22, fechaNacimiento);
+        });
+        assertEquals("El nombre no puede estar vacío", exception.getMessage());
 
-        }catch (IllegalArgumentException e){
-            invalido = true;
-            assertEquals("El nombre no puede estar vacío", e.getMessage());
-        }
-        assertTrue(invalido, "se espera una exception");
     }
 
     @Test
-    void crearPersonaConApellidoInvalido(){
-        boolean invalido = false;
-        try {
-            LocalDate fechaNacimiento = LocalDate.of(2003,1,15);
-            Persona persona = Persona.create("Matias", "", 22, fechaNacimiento);
-
-        }catch (IllegalArgumentException e){
-            invalido = true;
-            assertEquals("El apellido no puede estar vacío", e.getMessage());
-        }
-        assertTrue(invalido, "se espera una exception");
-    }
-
-
-
-
-
-    @Test
-    void crearPersonaConEdadInvalida(){
-        boolean invalido = false;
-        try {
-            LocalDate fechaNacimiento = LocalDate.of(2003,1,15);
-            Persona persona = Persona.create("Matias", "Villafañe", -1, fechaNacimiento);
-
-        }catch (IllegalArgumentException e){
-            invalido = true;
-            assertEquals("La edad no puede ser negativa", e.getMessage());
-        }
-        assertTrue(invalido, "se espera una exception");
+    void crearPersonaConApellidoInvalido() {
+        LocalDate fechaNacimiento = LocalDate.of(2003, 1, 15);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            Persona.create("Matias", "", 22, fechaNacimiento);
+        });
+        assertEquals("El apellido no puede estar vacío", exception.getMessage());
     }
 
     @Test
-    void crearPersonaConFEchaNula(){
-        boolean fechaNull = false;
-        try {
-            LocalDate fechaNacimiento = null;
-            Persona persona = Persona.create("Matias", "Villafañe", 22, fechaNacimiento);
-
-        }catch (IllegalArgumentException e){
-            fechaNull = true;
-            assertEquals("La fecha de nacimiento es obligatoria", e.getMessage());
-        }
-        assertTrue(fechaNull, "se espera una exception");
+    void crearPersonaConEdadInvalida() {
+        LocalDate fechaNacimiento = LocalDate.of(2003, 1, 15);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            Persona.create("Matias", "Villafañe", -1, fechaNacimiento);
+        });
+        assertEquals("La edad no puede ser negativa", exception.getMessage());
     }
+
+    @Test
+    void crearPersonaConFechaNula() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            Persona.create("Matias", "Villafañe", 22, null);
+        });
+        assertEquals("La fecha de nacimiento es obligatoria", exception.getMessage());
+     }
 
 
 }
