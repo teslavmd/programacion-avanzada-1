@@ -13,7 +13,7 @@ public class PersonaTest {
     void crearPersona(){
 
         LocalDate fechaNacimiento = LocalDate.of(2003, 1, 15);
-        Persona persona = Persona.create("Matias", "Villfañe", 22, fechaNacimiento);
+        Persona persona = Persona.create("Matias", "Villafañe", 22, fechaNacimiento);
 
         assertEquals("Villafañe", persona.getApellido());
 
